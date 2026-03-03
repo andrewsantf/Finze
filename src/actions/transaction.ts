@@ -71,7 +71,7 @@ export async function getDashboardSummary(period?: string) {
         let fixedExpenses = 0
         let variableExpenses = 0
 
-        transactions.forEach(t => {
+        transactions.forEach((t: any) => {
             if (t.type === "INCOME") income += t.amount
             else if (t.type === "FIXED_EXPENSE") fixedExpenses += t.amount
             else if (t.type === "VARIABLE_EXPENSE") variableExpenses += t.amount
