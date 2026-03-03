@@ -22,8 +22,12 @@ export async function createTransaction(data: TransactionInput) {
         })
         revalidatePath("/")
         return { success: true, data: transaction }
-    } catch (error) {
-        console.error("Failed to create transaction", error)
+    } catch (error: any) {
+        const urlStr = process.env.DATABASE_URL || "VAZIO"
+        const isQuoted = urlStr.startsWith('"') || urlStr.startsWith("'")
+        console.error(`=> CREATE DIAGNOSTICO: URL Carregada: ${urlStr.substring(0, 15)}... Aspas?: ${isQuoted}`)
+        const errMsg = error?.message ? error.message.replace(/\n/g, ' | ') : String(error)
+        console.error("Failed to create transaction: ", errMsg)
         return { success: false, error: "Falha ao criar transação." }
     }
 }
@@ -36,8 +40,12 @@ export async function getTransactions(period?: string) {
             orderBy: { date: "desc" },
         })
         return transactions
-    } catch (error) {
-        console.error("Failed to get transactions", error)
+    } catch (error: any) {
+        const urlStr = process.env.DATABASE_URL || "VAZIO"
+        const isQuoted = urlStr.startsWith('"') || urlStr.startsWith("'")
+        console.error(`=> DIAGNOSTICO: URL Carregada: ${urlStr.substring(0, 15)}... Aspas?: ${isQuoted}`)
+        const errMsg = error?.message ? error.message.replace(/\n/g, ' | ') : String(error)
+        console.error("Failed to get transactions: ", errMsg)
         return []
     }
 }
